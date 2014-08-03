@@ -2,17 +2,29 @@
 
 You can use all plugin-supported RTCMultiConection features e.g. media sharing.
 
-Data-Connection isn't supported yet.
+=
+
+# You MUST Link any of the following:
+
+```html
+<script src="//cdn.webrtc-experiment.com/Plugin.EveryWhere.js"></script>
+
+<!-- or -->
+<script src="//cdn.webrtc-experiment.com/Plugin.Temasys.js"</script>
+```
+
+Then link `RTCMultiConection.js`:
+
+```html
+<script src="RTCMultiConection-v1.9.js"</script>
+```
 
 =
 
 # Plugins?
 
-Currently only `webrtc-everywhere`, a plugin written and managed by an individual @sarandogou.
-
 1. https://github.com/sarandogou/webrtc-everywhere#downloads
-
-Temasys and EasyRTC based support coming soon.
+2. https://temasys.atlassian.net/wiki/display/TWPP/Downloads+and+Installing
 
 =
 
@@ -20,7 +32,7 @@ Temasys and EasyRTC based support coming soon.
 
 Download any demo from following repository:
 
-* 
+* https://github.com/muaz-khan/WebRTC-Experiment/tree/master/RTCMultiConnection/demos
 
 =
 

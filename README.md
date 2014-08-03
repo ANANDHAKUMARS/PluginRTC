@@ -10,17 +10,52 @@ This repository isn't providing WebRTC plugins. It is simply using existing plug
 
 1. [RTCMultiConection.js](http://www.rtcmulticonnection.org/changes-log/)
 
-You can use all plugin-supported RTCMultiConection features e.g. media sharing.
+Scroll to bottom to see how to use these plugins within other [WebRTC Experiments](https://github.com/muaz-khan/WebRTC-Experiment).
 
 =
 
 # Plugins?
 
-Currently only `webrtc-everywhere`, a plugin written and managed by an individual @sarandogou.
-
 1. https://github.com/sarandogou/webrtc-everywhere#downloads
+2. https://temasys.atlassian.net/wiki/display/TWPP/Downloads+and+Installing
 
-Temasys and EasyRTC based support coming soon.
+=
+
+# How to use in your own demos/libraries?
+
+First step; link any of the following:
+
+# You MUST Link any of the following:
+
+```html
+<script src="//cdn.webrtc-experiment.com/Plugin.EveryWhere.js"></script>
+
+<!-- or -->
+<script src="//cdn.webrtc-experiment.com/Plugin.Temasys.js"</script>
+```
+
+Second step; add following code:
+
+```javascript
+var Plugin = window.PluginRTC || {};
+window.onPluginRTCInitialized = function(pluginRTCObject) {
+    Plugin = pluginRTCObject;
+    MediaStreamTrack      = Plugin.MediaStreamTrack;
+    RTCPeerConnection     = Plugin.RTCPeerConnection;
+    RTCIceCandidate       = Plugin.RTCIceCandidate;
+    RTCSessionDescription = Plugin.RTCSessionDescription;
+};
+if (!isEmpty(Plugin)) window.onPluginRTCInitialized(Plugin);
+```
+
+Now you can use `Plugin` object like this:
+
+```javascript
+// capture video
+Plugin.getUserMedia({video: true}, function(stream) {
+    Plugin.attachMediaStream( DOMLoaded_HTML_Video_Element, stream );
+}, function(erro) {});
+```
 
 =
 
