@@ -1,4 +1,4 @@
-// Last time updated at August 03, 2014, 08:32:23
+// Last time updated at August 23, 2014, 08:32:23
 
 // Latest file can be found here: https://cdn.webrtc-experiment.com/Plugin.EveryWhere.js
 
@@ -14,10 +14,10 @@
 (function() {
     var ua = navigator.userAgent.toLowerCase();
     var isSafari = ua.indexOf('safari') != -1 && ua.indexOf('chrome') == -1;
-    var isInternetExplorer = !!((Object.getOwnPropertyDescriptor && Object.getOwnPropertyDescriptor(window, "ActiveXObject")) || ("ActiveXObject" in window));
+    var isIE = !!((Object.getOwnPropertyDescriptor && Object.getOwnPropertyDescriptor(window, "ActiveXObject")) || ("ActiveXObject" in window));
 
-    if(!(isSafari || isInternetExplorer)) return;
-    
+    if (!(isSafari || isIE)) return;
+
     function LoadPluginRTC() {
         window.PluginRTC = {};
 
@@ -47,7 +47,7 @@
             }
 
             var pluginObj = document.createElement('object');
-            if (isInternetExplorer) {
+            if (isIE) {
                 pluginObj.setAttribute('classid', 'CLSID:7FD49E23-C8D7-4C4F-93A1-F7EACFA1EC53');
             } else {
                 pluginObj.setAttribute('type', 'application/webrtc-everywhere');
@@ -176,18 +176,20 @@
         };
 
         window.PluginRTC.RTCIceCandidate = function(RTCIceCandidateInit, callback) {
-
             if (!window.selfNPObject) return setTimeout(function() {
-                RTCIceCandidate(RTCIceCandidateInit, callback);
+                window.PluginRTC.RTCIceCandidate(RTCIceCandidateInit, callback);
             }, 1000);
             else addIceCandidate();
 
             function addIceCandidate() {
                 var candidate = RTCIceCandidateInit;
                 RTCIceCandidateInit = selfNPObject;
-                RTCIceCandidateInit.candidate = candidate.candidate;
-                RTCIceCandidateInit.sdpMid = candidate.sdpMid;
-                RTCIceCandidateInit.sdpMLineIndex = candidate.sdpMLineIndex;
+
+                if (!isIE) {
+                    RTCIceCandidateInit.candidate = candidate.candidate;
+                    RTCIceCandidateInit.sdpMid = candidate.sdpMid;
+                    RTCIceCandidateInit.sdpMLineIndex = candidate.sdpMLineIndex;
+                }
 
                 var resultingNPObject = getPlugin().createIceCandidate(RTCIceCandidateInit);
                 callback(resultingNPObject);
@@ -197,11 +199,11 @@
         window.PluginRTC.RTCSessionDescription = function(RTCSessionDescriptionInit) {
             return getPlugin().createSessionDescription(RTCSessionDescriptionInit);
         };
-        
-        if(window.onPluginRTCInitialized) {
+
+        if (window.onPluginRTCInitialized) {
             window.onPluginRTCInitialized(window.PluginRTC);
         }
     }
-    
+
     window.addEventListener('load', LoadPluginRTC, false);
 })();
