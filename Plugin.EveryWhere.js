@@ -1,4 +1,4 @@
-// Last time updated at August 23, 2014, 08:32:23
+// Last time updated at Feb 08, 2015, 08:32:23
 
 // Latest file can be found here: https://cdn.webrtc-experiment.com/Plugin.EveryWhere.js
 
@@ -175,25 +175,8 @@
             return getPlugin().createPeerConnection(configuration, constraints);
         };
 
-        window.PluginRTC.RTCIceCandidate = function(RTCIceCandidateInit, callback) {
-            if (!window.selfNPObject) return setTimeout(function() {
-                window.PluginRTC.RTCIceCandidate(RTCIceCandidateInit, callback);
-            }, 1000);
-            else addIceCandidate();
-
-            function addIceCandidate() {
-                var candidate = RTCIceCandidateInit;
-                RTCIceCandidateInit = selfNPObject;
-
-                if (!isIE) {
-                    RTCIceCandidateInit.candidate = candidate.candidate;
-                    RTCIceCandidateInit.sdpMid = candidate.sdpMid;
-                    RTCIceCandidateInit.sdpMLineIndex = candidate.sdpMLineIndex;
-                }
-
-                var resultingNPObject = getPlugin().createIceCandidate(RTCIceCandidateInit);
-                callback(resultingNPObject);
-            }
+        window.PluginRTC.RTCIceCandidate = function(RTCIceCandidateInit) {
+            return getPlugin().createIceCandidate(RTCIceCandidateInit);
         };
 
         window.PluginRTC.RTCSessionDescription = function(RTCSessionDescriptionInit) {
